@@ -1,0 +1,17 @@
+## Build output
+bin/
+obj/
+
+## Visual Studio / Rider
+.vs/
+.idea/
+*.user
+*.suo
+
+## OS files
+Thumbs.db
+.DS_Store
+
+## SPT install (local references)
+*.dll
+!bin/Release/*.dll
