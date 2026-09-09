@@ -70,9 +70,7 @@ A post-build target copies the DLL to `BepInEx/plugins` automatically.
 ## Compatibility
 
 - **SPT 4.1.x** (tested on 4.1.5)
-- **BepInEx** with HarmonyX
-- Compatible with **TarkovRL / Tarkov Realism** (layers on top of its procedural weapon motion)
-- No server mod required — this is a client-only plugin
+- Compatible with **TarkovRL / Tarkov Real Life** (layers on top of its procedural weapon motion)
 
 ## Technical notes
 
