@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace TacticalStances;
 
-[BepInPlugin("com.devin.tacticalstances", "Tactical Stances", "1.1.0")]
+[BepInPlugin("com.devin.tacticalstances", "Tactical Stances", "1.0.0")]
 public class TacticalStancesPlugin : BaseUnityPlugin
 {
     public static ManualLogSource Log;
@@ -79,27 +79,27 @@ public class TacticalStancesPlugin : BaseUnityPlugin
         Log = Logger;
 
         EnableStances = Config.Bind("a - General", "Enable Stances", true, "Toggle the stance system on/off");
-        TransitionSpeed = Config.Bind("a - General", "Transition Speed", 5f, new ConfigDescription("How quickly the weapon moves to the stance", new AcceptableValueRange<float>(1f, 10f), Array.Empty<object>()));
+        TransitionSpeed = Config.Bind("a - General", "Transition Speed", 7f, new ConfigDescription("How quickly the weapon moves to the stance", new AcceptableValueRange<float>(1f, 10f), Array.Empty<object>()));
         AltScrollCycle = Config.Bind("a - General", "Alt + Scroll to Cycle", true, "Hold LeftAlt and scroll to cycle stances");
         InvertScroll = Config.Bind("a - General", "Invert Scroll", false, "Reverse the scroll-wheel direction for cycling");
-        SavedStance = Config.Bind("a - General", "Saved Stance", EStance.None, "Last selected stance, persists across raids");
+        SavedStance = Config.Bind("a - General", "Saved Stance", EStance.LowReady, "Last selected stance, persists across raids");
 
         // Only stamina config exposed — controls stance ARM stamina drain only.
         // Does NOT affect regen or sprint stamina.
-        StaminaDrainMultiplier = Config.Bind("a - General", "Stamina Drain Multiplier", 1f, new ConfigDescription("Controls arm stamina DRAIN from stances only. Does not affect regen or sprint stamina. 1.0 = base drain, 0.0 = no arm stamina drain from stances, 2.0 = double drain.", new AcceptableValueRange<float>(0f, 2f), Array.Empty<object>()));
+        StaminaDrainMultiplier = Config.Bind("a - General", "Stamina Drain Multiplier", 0.6f, new ConfigDescription("Controls arm stamina DRAIN from stances only. Does not affect regen or sprint stamina. 1.0 = base drain, 0.0 = no arm stamina drain from stances, 2.0 = double drain.", new AcceptableValueRange<float>(0f, 2f), Array.Empty<object>()));
 
         EnableTacSprint = Config.Bind("a - General", "Enable Tactical Sprint Animation", true, "When in High Ready and sprinting, plays the tactical sprint animation (weapon held up while running)");
-        EnableShoulderSwap = Config.Bind("a - General", "Enable Shoulder Swap on Lean", true, "When enabled, leaning left (Q) swaps weapon to left shoulder and leaning right (E) swaps back. Stance offsets mirror accordingly. When disabled, vanilla Alt+left/right shoulder swap only.");
+        EnableShoulderSwap = Config.Bind("a - General", "Enable Shoulder Swap on Lean", false, "When enabled, leaning left (Q) swaps weapon to left shoulder and leaning right (E) swaps back. Stance offsets mirror accordingly. When disabled, vanilla Alt+left/right shoulder swap only.");
         EnableShoulderSwapMirroring = Config.Bind("a - General", "Enable Shoulder Swap Mirroring", false, "Mirror stance offsets when on left shoulder.");
 
-        KeyLowReady = Config.Bind("b - Hotkeys", "Low Ready Key", new KeyboardShortcut(KeyCode.F1), "Key to switch to Low Ready");
-        KeyHighReady = Config.Bind("b - Hotkeys", "High Ready Key", new KeyboardShortcut(KeyCode.F2), "Key to switch to High Ready");
-        KeyActiveAim = Config.Bind("b - Hotkeys", "Active Aim Key", new KeyboardShortcut(KeyCode.F3), "Key to switch to Active Aim");
+        KeyLowReady = Config.Bind("b - Hotkeys", "Low Ready Key", new KeyboardShortcut(KeyCode.None), "Key to switch to Low Ready");
+        KeyHighReady = Config.Bind("b - Hotkeys", "High Ready Key", new KeyboardShortcut(KeyCode.None), "Key to switch to High Ready");
+        KeyActiveAim = Config.Bind("b - Hotkeys", "Active Aim Key", new KeyboardShortcut(KeyCode.None), "Key to switch to Active Aim");
 
         string[] sections = { "c - Low Ready", "d - High Ready", "e - Active Aim" };
-        BindStanceOffsets(sections[0], out LowReadyPosX, out LowReadyPosY, out LowReadyPosZ, out LowReadyRotX, out LowReadyRotY, out LowReadyRotZ, new Vector3(0f, -0.01f, 0f), new Vector3(6f, -4f, 0f));
-        BindStanceOffsets(sections[1], out HighReadyPosX, out HighReadyPosY, out HighReadyPosZ, out HighReadyRotX, out HighReadyRotY, out HighReadyRotZ, new Vector3(0.02f, -0.03f, -0.1f), new Vector3(35f, -8f, -5f));
-        BindStanceOffsets(sections[2], out ActiveAimPosX, out ActiveAimPosY, out ActiveAimPosZ, out ActiveAimRotX, out ActiveAimRotY, out ActiveAimRotZ, new Vector3(-0.037f, -0.01f, 0f), new Vector3(0f, -21f, 0f));
+        BindStanceOffsets(sections[0], out LowReadyPosX, out LowReadyPosY, out LowReadyPosZ, out LowReadyRotX, out LowReadyRotY, out LowReadyRotZ, new Vector3(0.103662f, 0f, 0.06309859f), new Vector3(18.7324f, -7.098592f, -21.50235f));
+        BindStanceOffsets(sections[1], out HighReadyPosX, out HighReadyPosY, out HighReadyPosZ, out HighReadyRotX, out HighReadyRotY, out HighReadyRotZ, new Vector3(0.01971831f, 0.03647888f, -0.2129578f), new Vector3(-30.91549f, 0f, 1.197183f));
+        BindStanceOffsets(sections[2], out ActiveAimPosX, out ActiveAimPosY, out ActiveAimPosZ, out ActiveAimRotX, out ActiveAimRotY, out ActiveAimRotZ, new Vector3(0f, 0.06478873f, 0f), new Vector3(0f, 0f, 0f));
 
         DesiredStance = SavedStance.Value;
         if (EnableStances.Value)
@@ -107,7 +107,7 @@ public class TacticalStancesPlugin : BaseUnityPlugin
             PatchAll();
         }
         _wasEnabled = EnableStances.Value;
-        Log.LogInfo("Tactical Stances v1.1.0 loaded");
+        Log.LogInfo("Tactical Stances v1.0.0 loaded");
     }
 
     private void Update()

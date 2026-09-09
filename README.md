@@ -37,11 +37,12 @@ TacticalStances lets you hold your weapon in three distinct ready positions whil
 
 | Action | Default key | Configurable |
 |--------|-------------|-------------|
-| Switch to Low Ready | `F1` | Yes |
-| Switch to High Ready | `F2` | Yes |
-| Switch to Active Aim | `F3` | Yes |
 | Cycle stances | `Left Alt` + `Scroll` | Yes (toggle) |
-| Shoulder swap | `Q` / `E` (lean) | Yes (toggle) |
+| Shoulder swap | `Q` / `E` (lean) | Yes (toggle, off by default) |
+
+Individual stance hotkeys are unbound by default — use `Left Alt` + `Scroll` to cycle through Low Ready, Active Aim, and High Ready. You can bind specific keys (e.g. F1/F2/F3) in the config if preferred.
+
+The default stance on raid start is **Low Ready**.
 
 Stances are suppressed while: aiming down sights, sprinting (except High Ready tactical sprint), inventory open, during interactions/reloads, grenade launcher mounted, or hands busy.
 
@@ -89,7 +90,7 @@ Transitions between stances use a critically-damped spring (frequency derived fr
 ```text
 GUID:    com.devin.tacticalstances
 Name:    Tactical Stances
-Version: 1.1.0
+Version: 1.0.0
 ```
 
 ## License
