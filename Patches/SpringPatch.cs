@@ -41,10 +41,14 @@ public static class StanceIkProcessPatch
             return;
         if (__instance == null || !__instance.IsYourPlayer)
             return;
+        // Firearms only — throwables, melee, meds etc. own a WeaponRootAnim
+        // too, and stance/pivot math drags their hands out of pose.
+        if (__instance.HandsController is not Player.FirearmController)
+            return;
         if (__instance.ProceduralWeaponAnimation?.HandsContainer?.WeaponRootAnim == null)
             return;
 
-        StanceManager.ApplyStanceOffsetForIK(__instance.ProceduralWeaponAnimation.HandsContainer.WeaponRootAnim);
+        StanceManager.ApplyStanceOffsetForIK(__instance.ProceduralWeaponAnimation.HandsContainer.WeaponRootAnim, __instance);
     }
 }
 
@@ -63,6 +67,8 @@ public static class StanceLateUpdatePostfixPatch
         if (!TacticalStancesPlugin.EnableStances.Value)
             return;
         if (__instance == null || !__instance.IsYourPlayer)
+            return;
+        if (__instance.HandsController is not Player.FirearmController)
             return;
         if (__instance.ProceduralWeaponAnimation?.HandsContainer?.WeaponRootAnim == null)
             return;

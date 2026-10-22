@@ -5,5 +5,6 @@ public enum EStance
     None,
     LowReady,
     HighReady,
-    ActiveAim
+    ActiveAim,
+    CantedAim
 }

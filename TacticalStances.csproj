@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <SPT_INSTALL_DIR Condition="'$(SPT_INSTALL_DIR)'==''">J:\Games\SPT 4.1.5</SPT_INSTALL_DIR>
+    <SPT_INSTALL_DIR Condition="'$(SPT_INSTALL_DIR)'==''">J:\Games\SPT 4.1.6</SPT_INSTALL_DIR>
   </PropertyGroup>
 
   <ItemGroup>
@@ -47,6 +47,10 @@
     </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
       <HintPath>$(SPT_INSTALL_DIR)\EscapeFromTarkov_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>$(SPT_INSTALL_DIR)\EscapeFromTarkov_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="AnimationSystem.Types">
