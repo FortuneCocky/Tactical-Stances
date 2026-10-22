@@ -38,4 +38,6 @@ A BepInEx plugin for **SPT 4.1.x** that adds ready stances, canted aim, and shou
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+Custom license — free for personal use; **modification and redistribution require written permission**. See [LICENSE](LICENSE).
+
+**Contact for permission:** GitHub issues on this repo, or Discord `Isaiahnohart` (ID `138781947550892032`).
