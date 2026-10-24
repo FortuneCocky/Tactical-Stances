@@ -1,6 +1,6 @@
 # TacticalStances-SPT
 
-A BepInEx plugin for **SPT 4.1.x** that adds ready stances, canted aim, and shoulder swapping — so your weapon isn't always glued to your shoulder. Built to layer on top of [TarkovRL](https://github.com/FortuneCocky/Tarkov-Real-Life-SPT).
+A BepInEx plugin for **SPT 4.1.x** that adds ready stances, canted aim, and shoulder swapping — so your weapon isn't always glued to your shoulder. Built to layer on top of [TrueView](https://github.com/FortuneCocky/TrueView).
 
 ## The stances
 
@@ -34,7 +34,7 @@ A BepInEx plugin for **SPT 4.1.x** that adds ready stances, canted aim, and shou
 ## Compatibility
 
 - SPT 4.1.x — client only, no server mod
-- Pairs with **TarkovRL** — stances layer over its procedural weapon motion
+- Pairs with **TrueView** — stances layer over its procedural weapon motion
 
 ## License
 
