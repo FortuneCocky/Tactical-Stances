@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace TacticalStances;
 
-[BepInPlugin("com.devin.tacticalstances", "Tactical Stances", "1.1.0")]
+[BepInPlugin("com.devin.tacticalstances", "Tactical Stances", "1.2.0")]
 public class TacticalStancesPlugin : BaseUnityPlugin
 {
     public static ManualLogSource Log;
@@ -183,7 +183,7 @@ public class TacticalStancesPlugin : BaseUnityPlugin
         SprintBlendOut = Config.Bind("a - General", "Sprint Blend-Out Speed", 4.5f, new ConfigDescription("How fast the stance fades back in after sprint ends — lower = smoother/slower", new AcceptableValueRange<float>(1f, 30f), Array.Empty<object>()));
         AltScrollCycle = Config.Bind("a - General", "Alt + Scroll to Cycle", true, "Hold LeftAlt and scroll to cycle stances");
         InvertScroll = Config.Bind("a - General", "Invert Scroll", false, "Reverse the scroll-wheel direction for cycling");
-        SavedStance = Config.Bind("a - General", "Saved Stance", EStance.LowReady, "Last selected stance, persists across raids");
+        SavedStance = Config.Bind("a - General", "Saved Stance", EStance.HighReady, "Last selected stance, persists across raids");
 
         AutoNormalOnFire = Config.Bind("a - General", "Return To Normal On Fire", true, "When enabled, shooting from any stance moves the weapon to the Fire Return Stance pose, then returns to your selected stance after the delay below.");
         FireReturnDelay = Config.Bind("a - General", "Fire Return Delay (s)", 1.4f, new ConfigDescription("Seconds the weapon stays in the fire-return pose after the last shot before returning to the selected stance.", new AcceptableValueRange<float>(1f, 20f), Array.Empty<object>()));
@@ -192,7 +192,7 @@ public class TacticalStancesPlugin : BaseUnityPlugin
 
         // Only stamina config exposed — controls stance ARM stamina drain only.
         // Does NOT affect regen or sprint stamina.
-        StaminaDrainMultiplier = Config.Bind("a - General", "Stamina Drain Multiplier", 0.65f, new ConfigDescription("Controls arm stamina DRAIN from stances only. Does not affect regen or sprint stamina. 1.0 = base drain, 0.0 = no arm stamina drain from stances, 2.0 = double drain.", new AcceptableValueRange<float>(0f, 2f), Array.Empty<object>()));
+        StaminaDrainMultiplier = Config.Bind("a - General", "Stamina Drain Multiplier", 0.61f, new ConfigDescription("Controls arm stamina DRAIN from stances only. Does not affect regen or sprint stamina. 1.0 = base drain, 0.0 = no arm stamina drain from stances, 2.0 = double drain.", new AcceptableValueRange<float>(0f, 2f), Array.Empty<object>()));
 
         const string ws = "m - Weight & Stamina";
         EnableWeightStamina = Config.Bind(ws, "Enable Weight Scaling", true, "Scales arm-stamina drain/regen by weapon weight (with attachments). Light pistols/SMGs barely drain; heavy LMGs drain noticeably.");
@@ -219,9 +219,9 @@ public class TacticalStancesPlugin : BaseUnityPlugin
         CantedAimToggle = Config.Bind("b - Hotkeys", "Canted Aim Toggle Mode", false, "Off = hold the key to cant the weapon, release to return to your stance. On = press once to cant, press again to release.");
 
         string[] sections = { "c - Low Ready", "d - High Ready", "e - Active Aim", "g - Canted Aim" };
-        BindStanceOffsets(sections[0], out LowReadyPosX, out LowReadyPosY, out LowReadyPosZ, out LowReadyRotX, out LowReadyRotY, out LowReadyRotZ, new Vector3(0.03323947f, 0f, 0.06309859f), new Vector3(16.47888f, -5.971831f, -20.93897f));
-        BindStanceOffsets(sections[1], out HighReadyPosX, out HighReadyPosY, out HighReadyPosZ, out HighReadyRotX, out HighReadyRotY, out HighReadyRotZ, new Vector3(0.01971831f, 0.05056338f, -0.1481691f), new Vector3(-22.4648f, -12.39437f, 11.33803f));
-        BindStanceOffsets(sections[2], out ActiveAimPosX, out ActiveAimPosY, out ActiveAimPosZ, out ActiveAimRotX, out ActiveAimRotY, out ActiveAimRotZ, new Vector3(0.005633803f, 0.05352112f, 0f), new Vector3(0f, 0f, 0f));
+        BindStanceOffsets(sections[0], out LowReadyPosX, out LowReadyPosY, out LowReadyPosZ, out LowReadyRotX, out LowReadyRotY, out LowReadyRotZ, new Vector3(0.03323947f, 0.005f, 0.02f), new Vector3(16.47888f, -5.971831f, -20.93897f));
+        BindStanceOffsets(sections[1], out HighReadyPosX, out HighReadyPosY, out HighReadyPosZ, out HighReadyRotX, out HighReadyRotY, out HighReadyRotZ, new Vector3(0f, 0.045f, -0.085f), new Vector3(-22.4648f, -12.39437f, 11.33803f));
+        BindStanceOffsets(sections[2], out ActiveAimPosX, out ActiveAimPosY, out ActiveAimPosZ, out ActiveAimRotX, out ActiveAimRotY, out ActiveAimRotZ, new Vector3(-0.03943662f, 0.038f, -0.002816901f), new Vector3(-1.126761f, 0f, 0f));
         BindStanceOffsets(sections[3], out CantedAimPosX, out CantedAimPosY, out CantedAimPosZ, out CantedAimRotX, out CantedAimRotY, out CantedAimRotZ, new Vector3(-0.0384f, 0.03126f, 0.0742f), new Vector3(0.56338f, -38.169f, 0f));
 
         // Pistol stances — own sections. Defaults mirror the long-gun
@@ -232,7 +232,7 @@ public class TacticalStancesPlugin : BaseUnityPlugin
         BindStanceOffsets("j - Pistol Active Aim", out PistolActivePosX, out PistolActivePosY, out PistolActivePosZ, out PistolActiveRotX, out PistolActiveRotY, out PistolActiveRotZ, new Vector3(0f, 0.06478873f, 0f), new Vector3(0f, 0f, 0f));
 
         EnableLeanShoulderSwap = Config.Bind("k - Lean Shoulder Swap", "Enable Lean Shoulder Swap", true, "Moves the weapon to the left shoulder while leaning left without changing EFT's native shoulder stance. This preserves TarkovRL deadzone behavior.");
-        BindStanceOffsets("k - Lean Shoulder Swap", out LeanSwapPosX, out LeanSwapPosY, out LeanSwapPosZ, out LeanSwapRotX, out LeanSwapRotY, out LeanSwapRotZ, new Vector3(-0.16f, -0.002816901f, -0.002816901f), new Vector3(0f, -1.126761f, 0f));
+        BindStanceOffsets("k - Lean Shoulder Swap", out LeanSwapPosX, out LeanSwapPosY, out LeanSwapPosZ, out LeanSwapRotX, out LeanSwapRotY, out LeanSwapRotZ, new Vector3(-0.114f, -0.002816901f, -0.002816901f), new Vector3(0f, -1.126761f, 0f));
 
 
 
